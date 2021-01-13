@@ -1,12 +1,20 @@
 package main
 
-import "net/http"
+import (
+	"fmt" // New import
+	"log"
+	"net/http"
+	"strconv" // New import
+)
 
-func home(w http.ResponseWriter, r *http.Request) {
+func showSnippet(w http.ResponseWriter, r *http.Request) {
 
-	if r.URL.Path != "/" {
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil || id < 1 {
 		http.NotFound(w, r)
 		return
 	}
-	w.Write([]byte("Hello from Snippetbox"))
+
+	fmt.Fprintf(w, "Display a specific snippet with ID %d...", id)
 }
+
